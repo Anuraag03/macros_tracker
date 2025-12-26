@@ -3,7 +3,7 @@
   max-width: 1200px;
   margin: 0 auto;
   min-height: 100vh;
-  background: #f8f9fa;
+  background: transparent;
 }
 
 .dashboard-header {
@@ -12,14 +12,21 @@
 
 .dashboard-header h1 {
   margin: 0;
-  color: #333;
-  font-size: 32px;
+  color: var(--text-primary);
+  font-size: 36px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -1px;
 }
 
 .dashboard-header .date {
-  margin: 5px 0 0 0;
-  color: #666;
+  margin: 10px 0 0 0;
+  color: var(--text-secondary);
   font-size: 16px;
+  font-weight: 500;
 }
 
 .macro-overview {
@@ -30,10 +37,19 @@
 }
 
 .macro-card {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: rgba(21, 27, 61, 0.6);
+  backdrop-filter: blur(20px);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  transition: all 0.3s ease;
+}
+
+.macro-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.3);
+  border-color: rgba(102, 126, 234, 0.4);
 }
 
 .macro-card-header {
@@ -46,51 +62,64 @@
 .macro-card h3 {
   margin: 0;
   font-size: 16px;
-  color: #333;
-  font-weight: 600;
+  color: var(--text-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .remaining {
   font-size: 13px;
-  color: #666;
+  color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .macro-progress {
-  height: 10px;
-  background: #e0e0e0;
-  border-radius: 5px;
+  height: 12px;
+  background: rgba(30, 39, 73, 0.6);
+  border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .macro-progress-bar {
   height: 100%;
   transition: width 0.3s ease;
-  border-radius: 5px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
 }
 
 .macro-numbers {
   display: flex;
   align-items: baseline;
-  gap: 5px;
+  gap: 8px;
 }
 
 .macro-numbers .current {
-  font-size: 28px;
-  font-weight: bold;
-  color: #333;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--text-primary);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .macro-numbers .goal {
   font-size: 18px;
-  color: #666;
+  color: var(--text-secondary);
+  font-weight: 600;
 }
 
 .meals-section {
-  background: white;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: rgba(21, 27, 61, 0.6);
+  backdrop-filter: blur(20px);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(102, 126, 234, 0.2);
 }
 
 .section-header {
@@ -102,25 +131,27 @@
 
 .section-header h2 {
   margin: 0;
-  color: #333;
+  color: var(--text-primary);
   font-size: 24px;
+  font-weight: 700;
 }
 
 .add-meal-btn {
-  padding: 10px 20px;
+  padding: 12px 24px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 .add-meal-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
 }
 
 .meal-section {
@@ -144,49 +175,54 @@
 
 .meal-header h3 {
   margin: 0;
-  color: #333;
+  color: var(--text-primary);
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 700;
+  text-transform: capitalize;
 }
 
 .meal-total {
   color: #667eea;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 14px;
 }
 
 .empty-meal {
   padding: 30px;
   text-align: center;
-  background: #f8f9fa;
-  border-radius: 10px;
-  border: 2px dashed #e0e0e0;
+  background: rgba(30, 39, 73, 0.3);
+  border-radius: 12px;
+  border: 2px dashed rgba(102, 126, 234, 0.3);
 }
 
 .empty-meal p {
   margin: 0;
-  color: #999;
+  color: var(--text-secondary);
   font-size: 14px;
+  font-weight: 500;
 }
 
 .meal-entries {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .food-entry {
   display: flex;
   align-items: center;
   gap: 15px;
-  padding: 15px;
-  background: #f8f9fa;
-  border-radius: 10px;
+  padding: 16px;
+  background: rgba(30, 39, 73, 0.4);
+  border-radius: 12px;
   transition: all 0.3s;
+  border: 1px solid rgba(102, 126, 234, 0.1);
 }
 
 .food-entry:hover {
-  background: #f0f1f3;
+  background: rgba(30, 39, 73, 0.6);
+  border-color: rgba(102, 126, 234, 0.3);
+  transform: translateX(4px);
 }
 
 .entry-info {
@@ -194,23 +230,25 @@
 }
 
 .entry-info h4 {
-  margin: 0 0 5px 0;
-  color: #333;
+  margin: 0 0 6px 0;
+  color: var(--text-primary);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .entry-info p {
   margin: 0;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 13px;
+  font-weight: 500;
 }
 
 .entry-macros {
   display: flex;
-  gap: 12px;
+  gap: 15px;
   font-size: 13px;
-  color: #666;
+  color: var(--text-secondary);
+  font-weight: 600;
 }
 
 .entry-macros span {
@@ -218,18 +256,25 @@
 }
 
 .delete-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: #999;
+  background: rgba(239, 83, 80, 0.1);
+  border: 1px solid rgba(239, 83, 80, 0.2);
+  font-size: 20px;
+  color: #ef5350;
   cursor: pointer;
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   transition: all 0.3s;
+}
+
+.delete-btn:hover {
+  background: rgba(239, 83, 80, 0.2);
+  border-color: #ef5350;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(239, 83, 80, 0.3);
 }
 
 .delete-btn:hover {

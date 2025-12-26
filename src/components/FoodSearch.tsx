@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { Food } from '../types';
 import { foodDatabase } from '../data/foodDatabase';
+import { searchUSDAFoods, convertUSDAFoodToAppFood } from '../services/usdaApi';
 import './FoodSearch.css';
 
 interface FoodSearchProps {
@@ -16,6 +17,10 @@ const FoodSearch: React.FC<FoodSearchProps> = ({ onSelectFood, customFoods, onAd
   const [servings, setServings] = useState(1);
   const [mealType, setMealType] = useState('breakfast');
   const [showCustomForm, setShowCustomForm] = useState(false);
+  const [searchMode, setSearchMode] = useState<'local' | 'usda'>('local');
+  const [usdaResults, setUsdaResults] = useState<Food[]>([]);
+  const [isLoadingUSDA, setIsLoadingUSDA] = useState(false);
+  const [usdaError, setUsdaError] = useState<string | null>(null);
   const [customFood, setCustomFood] = useState({
     name: '',
     category: 'Protein',
@@ -39,16 +44,41 @@ const FoodSearch: React.FC<FoodSearchProps> = ({ onSelectFood, customFoods, onAd
     'Dairy',
   ];
 
-  const allFoods = [...foodDatabase, ...customFoods];
+  // Debounce USDA search
+  useEffect(() => {
+    if (searchMode === 'usda' && searchTerm.length >= 3) {
+      const timer = setTimeout(async () => {
+        setIsLoadingUSDA(true);
+        setUsdaError(null);
+        try {
+          const response = await searchUSDAFoods(searchTerm);
+          const foods = response.foods.map(convertUSDAFoodToAppFood);
+          setUsdaResults(foods);
+        } catch (error) {
+          setUsdaError('Failed to search USDA database. Please try again.');
+          setUsdaResults([]);
+        } finally {
+          setIsLoadingUSDA(false);
+        }
+      }, 500);
+      return () => clearTimeout(timer);
+    } else if (searchMode === 'usda' && searchTerm.length < 3) {
+      setUsdaResults([]);
+    }
+  }, [searchTerm, searchMode]);
 
-  const filteredFoods = allFoods.filter((food) => {
-    const matchesSearch = food.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    const matchesCategory =
-      selectedCategory === 'All' || food.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const allFoods = searchMode === 'usda' ? usdaResults : [...foodDatabase, ...customFoods];
+
+  const filteredFoods = searchMode === 'usda' 
+    ? allFoods.filter((food) => {
+        const matchesCategory = selectedCategory === 'All' || food.category === selectedCategory;
+        return matchesCategory;
+      })
+    : allFoods.filter((food) => {
+        const matchesSearch = food.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesCategory = selectedCategory === 'All' || food.category === selectedCategory;
+        return matchesSearch && matchesCategory;
+      });
 
   const handleAddFood = () => {
     if (selectedFood) {
@@ -96,12 +126,56 @@ const FoodSearch: React.FC<FoodSearchProps> = ({ onSelectFood, customFoods, onAd
       <div className="search-header">
         <input
           type="text"
-          placeholder="Search for food..."
+          placeholder={searchMode === 'usda' ? 'Search USDA database (min 3 characters)...' : 'Search for food...'}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
         />
+        <button
+          className="custom-food-btn"
+          onClick={() => setShowCustomForm(true)}
+        >
+          + Create Custom Food
+        </button>
       </div>
+
+      <div className="search-mode-toggle">
+        <button
+          className={`mode-btn ${searchMode === 'local' ? 'active' : ''}`}
+          onClick={() => {
+            setSearchMode('local');
+            setUsdaResults([]);
+            setUsdaError(null);
+          }}
+        >
+          Local Database
+        </button>
+        <button
+          className={`mode-btn ${searchMode === 'usda' ? 'active' : ''}`}
+          onClick={() => setSearchMode('usda')}
+        >
+          USDA Database
+        </button>
+      </div>
+
+      {searchMode === 'usda' && searchTerm.length > 0 && searchTerm.length < 3 && (
+        <div className="usda-hint">
+          Type at least 3 characters to search USDA database
+        </div>
+      )}
+
+      {isLoadingUSDA && (
+        <div className="loading-indicator">
+          <div className="spinner"></div>
+          Searching USDA database...
+        </div>
+      )}
+
+      {usdaError && (
+        <div className="error-message">
+          {usdaError}
+        </div>
+      )}
 
       <div className="category-filters">
         {categories.map((category) => (
@@ -118,6 +192,16 @@ const FoodSearch: React.FC<FoodSearchProps> = ({ onSelectFood, customFoods, onAd
       </div>
 
       <div className="food-list">
+        {filteredFoods.length === 0 && searchMode === 'usda' && !isLoadingUSDA && searchTerm.length >= 3 && (
+          <div className="no-results">
+            No foods found. Try a different search term.
+          </div>
+        )}
+        {filteredFoods.length === 0 && searchMode === 'local' && (
+          <div className="no-results">
+            No foods found. Try adjusting your search or category filter.
+          </div>
+        )}
         {filteredFoods.map((food) => (
           <div
             key={food.id}

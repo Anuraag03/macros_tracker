@@ -4,10 +4,11 @@ import './Questionnaire.css';
 
 interface QuestionnaireProps {
   onComplete: (profile: UserProfile) => void;
+  onUseDefaults: () => void;
 }
 
-const Questionnaire: React.FC<QuestionnaireProps> = ({ onComplete }) => {
-  const [step, setStep] = useState(1);
+const Questionnaire: React.FC<QuestionnaireProps> = ({ onComplete, onUseDefaults }) => {
+  const [step, setStep] = useState(0);
   const [profile, setProfile] = useState<Partial<UserProfile>>({
     foodPreferences: [],
     dietaryRestrictions: [],
@@ -50,6 +51,14 @@ const Questionnaire: React.FC<QuestionnaireProps> = ({ onComplete }) => {
 
   const handlePrevious = () => {
     if (step > 1) setStep(step - 1);
+  };
+
+  const handleUseDefaults = () => {
+    onUseDefaults();
+  };
+
+  const handleCustomSetup = () => {
+    setStep(1);
   };
 
   const handleSubmit = () => {
@@ -100,19 +109,68 @@ const Questionnaire: React.FC<QuestionnaireProps> = ({ onComplete }) => {
   return (
     <div className="questionnaire">
       <div className="questionnaire-container">
-        <div className="progress-bar">
-          <div
-            className="progress-fill"
-            style={{ width: `${(step / 9) * 100}%` }}
-          />
-        </div>
+        {step > 0 && (
+          <div className="progress-bar">
+            <div
+              className="progress-fill"
+              style={{ width: `${(step / 9) * 100}%` }}
+            />
+          </div>
+        )}
 
         <h2>Let's Get Your Profile Set Up</h2>
-        <p className="step-indicator">
-          Step {step} of 9
-        </p>
+        {step > 0 && (
+          <p className="step-indicator">
+            Step {step} of 9
+          </p>
+        )}
 
         <div className="question-content">
+          {step === 0 && (
+            <div className="question default-option">
+              <h3>Choose Your Setup Method</h3>
+              <p className="default-description">
+                You can use our recommended default values or customize your own macro goals.
+              </p>
+              
+              <div className="default-values-box">
+                <h4>Default Macro Goals</h4>
+                <div className="default-values-grid">
+                  <div className="default-value-item">
+                    <span className="value">1813</span>
+                    <span className="label">Calories</span>
+                  </div>
+                  <div className="default-value-item">
+                    <span className="value">162g</span>
+                    <span className="label">Protein</span>
+                  </div>
+                  <div className="default-value-item">
+                    <span className="value">165g</span>
+                    <span className="label">Carbs</span>
+                  </div>
+                  <div className="default-value-item">
+                    <span className="value">56g</span>
+                    <span className="label">Fats</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="setup-options">
+                <button
+                  className="use-defaults-btn"
+                  onClick={handleUseDefaults}
+                >
+                  Use Default Values
+                </button>
+                <button
+                  className="custom-setup-btn"
+                  onClick={handleCustomSetup}
+                >
+                  Customize My Goals
+                </button>
+              </div>
+            </div>
+          )}
           {step === 1 && (
             <div className="question">
               <label htmlFor="age">How old are you?</label>

@@ -5,8 +5,26 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #0a0e27;
+  color: #e0e0e0;
 }
 
 * {
   box-sizing: border-box;
+}
+
+:root {
+  --bg-primary: #0a0e27;
+  --bg-secondary: #151b3d;
+  --bg-tertiary: #1e2749;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a8c2;
+  --accent-primary: #667eea;
+  --accent-secondary: #764ba2;
+  --accent-success: #00d9a6;
+  --accent-warning: #ffa726;
+  --accent-danger: #ef5350;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
