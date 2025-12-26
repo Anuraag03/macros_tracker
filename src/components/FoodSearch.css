@@ -1,0 +1,330 @@
+.food-search {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.search-header {
+  padding: 20px;
+  background: white;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.category-filters {
+  display: flex;
+  gap: 10px;
+  padding: 15px 20px;
+  background: white;
+  border-bottom: 2px solid #f0f0f0;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.category-filters::-webkit-scrollbar {
+  height: 4px;
+}
+
+.category-filters::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 2px;
+}
+
+.category-btn {
+  padding: 8px 16px;
+  border: 2px solid #e0e0e0;
+  background: white;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.category-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.category-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: transparent;
+}
+
+.food-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background: #f8f9fa;
+}
+
+.food-item {
+  background: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+.food-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.food-item.selected {
+  border-color: #667eea;
+  background: #f5f7ff;
+}
+
+.food-info h4 {
+  margin: 0 0 5px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.serving-info {
+  margin: 0;
+  color: #666;
+  font-size: 13px;
+}
+
+.food-macros {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.macro-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.macro-badge.calories {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.macro-badge.protein {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.macro-badge.carbs {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.macro-badge.fat {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.food-detail-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 2px solid #e0e0e0;
+  padding: 20px;
+  max-height: 60vh;
+  overflow-y: auto;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+  animation: slideUp 0.3s ease;
+  z-index: 100;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.detail-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 20px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: #999;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+}
+
+.close-btn:hover {
+  color: #333;
+}
+
+.serving-controls,
+.meal-type-selector {
+  margin-bottom: 20px;
+}
+
+.serving-controls label,
+.meal-type-selector label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.serving-input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.serving-input-group button {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #e0e0e0;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  color: #667eea;
+  transition: all 0.3s;
+}
+
+.serving-input-group button:hover {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.serving-input-group input {
+  width: 80px;
+  padding: 8px;
+  text-align: center;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.serving-input-group input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.serving-amount {
+  color: #666;
+  font-size: 14px;
+}
+
+.meal-type-selector select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.meal-type-selector select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.nutrition-preview {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.nutrition-preview h4 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.nutrition-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.nutrition-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background: white;
+  border-radius: 8px;
+}
+
+.nutrition-label {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.nutrition-value {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.add-food-btn {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.add-food-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+}
+
+@media (max-width: 768px) {
+  .food-detail-panel {
+    max-height: 70vh;
+  }
+}
