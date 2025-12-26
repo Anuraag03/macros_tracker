@@ -72,6 +72,31 @@ function App() {
     setMacroGoals(goals);
   };
 
+  const handleUseDefaults = () => {
+    // Create a minimal profile for defaults
+    const defaultProfile: UserProfile = {
+      height: 175,
+      weight: 75,
+      age: 30,
+      gender: 'male',
+      activityLevel: 'moderate',
+      goal: 'maintain',
+      location: 'Default',
+      foodPreferences: [],
+      dietaryRestrictions: [],
+    };
+    setUserProfile(defaultProfile);
+    
+    // Set default macro goals
+    const defaultGoals: MacroGoals = {
+      calories: 1813,
+      protein: 162,
+      carbs: 165,
+      fat: 56,
+    };
+    setMacroGoals(defaultGoals);
+  };
+
   const handleAddFood = (food: Food, servings: number, mealType: string) => {
     const newEntry: FoodEntry = {
       id: `${Date.now()}-${Math.random()}`,
@@ -142,7 +167,7 @@ function App() {
 
   // Show questionnaire if no profile
   if (!userProfile || !macroGoals) {
-    return <Questionnaire onComplete={handleProfileComplete} />;
+    return <Questionnaire onComplete={handleProfileComplete} onUseDefaults={handleUseDefaults} />;
   }
 
   return (
