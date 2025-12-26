@@ -294,12 +294,13 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: white;
-  border-top: 2px solid #e0e0e0;
+  background: rgba(21, 27, 61, 0.95);
+  backdrop-filter: blur(20px);
+  border-top: 2px solid rgba(102, 126, 234, 0.3);
   padding: 20px;
   max-height: 60vh;
   overflow-y: auto;
-  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
   animation: slideUp 0.3s ease;
   z-index: 100;
 }
@@ -322,24 +323,27 @@
 
 .detail-header h3 {
   margin: 0;
-  color: #333;
+  color: var(--text-primary);
   font-size: 20px;
+  font-weight: 700;
 }
 
 .close-btn {
   background: none;
   border: none;
   font-size: 32px;
-  color: #999;
+  color: var(--text-secondary);
   cursor: pointer;
   line-height: 1;
   padding: 0;
   width: 32px;
   height: 32px;
+  transition: all 0.3s;
 }
 
 .close-btn:hover {
-  color: #333;
+  color: var(--text-primary);
+  transform: scale(1.1);
 }
 
 .serving-controls,
@@ -352,7 +356,7 @@
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .serving-input-group {
@@ -365,8 +369,8 @@
 .serving-input-group button {
   width: 36px;
   height: 36px;
-  border: 2px solid #e0e0e0;
-  background: white;
+  border: 2px solid rgba(102, 126, 234, 0.3);
+  background: rgba(30, 39, 73, 0.6);
   border-radius: 8px;
   cursor: pointer;
   font-size: 18px;
@@ -379,20 +383,24 @@
   background: #667eea;
   color: white;
   border-color: #667eea;
+  transform: scale(1.05);
 }
 
 .serving-input-group input {
   width: 80px;
   padding: 8px;
   text-align: center;
-  border: 2px solid #e0e0e0;
+  background: rgba(10, 14, 39, 0.6);
+  border: 2px solid rgba(102, 126, 234, 0.3);
   border-radius: 8px;
   font-size: 16px;
+  color: var(--text-primary);
 }
 
 .serving-input-group input:focus {
   outline: none;
   border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .serving-amount {
@@ -415,7 +423,8 @@
 }
 
 .nutrition-preview {
-  background: #f8f9fa;
+  background: rgba(30, 39, 73, 0.5);
+  border: 1px solid rgba(102, 126, 234, 0.2);
   padding: 15px;
   border-radius: 10px;
   margin-bottom: 20px;
@@ -423,8 +432,9 @@
 
 .nutrition-preview h4 {
   margin: 0 0 15px 0;
-  color: #333;
+  color: var(--text-primary);
   font-size: 16px;
+  font-weight: 700;
 }
 
 .nutrition-grid {
@@ -438,20 +448,29 @@
   flex-direction: column;
   align-items: center;
   padding: 10px;
-  background: white;
+  background: rgba(10, 14, 39, 0.6);
+  border: 1px solid rgba(102, 126, 234, 0.2);
   border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.nutrition-item:hover {
+  border-color: rgba(102, 126, 234, 0.4);
+  transform: translateY(-2px);
 }
 
 .nutrition-label {
   font-size: 12px;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .nutrition-value {
   font-size: 20px;
   font-weight: bold;
-  color: #333;
+  color: #667eea;
 }
 
 .add-food-btn {
@@ -487,21 +506,24 @@
 }
 
 .custom-food-form {
-  background: white;
+  background: rgba(21, 27, 61, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(102, 126, 234, 0.3);
   border-radius: 20px;
   padding: 30px;
   max-width: 600px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
 }
 
 .custom-food-form h2 {
   margin: 0 0 25px 0;
-  color: #333;
+  color: var(--text-primary);
   font-size: 24px;
   text-align: center;
+  font-weight: 700;
 }
 
 .form-group {
@@ -560,12 +582,15 @@
 }
 
 .cancel-btn {
-  background: #f0f0f0;
-  color: #666;
+  background: rgba(30, 39, 73, 0.6);
+  border: 2px solid rgba(102, 126, 234, 0.3);
+  color: var(--text-primary);
 }
 
 .cancel-btn:hover {
-  background: #e0e0e0;
+  background: rgba(30, 39, 73, 0.8);
+  border-color: rgba(102, 126, 234, 0.5);
+  transform: translateY(-2px);
 }
 
 .create-btn {
