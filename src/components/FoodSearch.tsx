@@ -5,14 +5,29 @@ import './FoodSearch.css';
 
 interface FoodSearchProps {
   onSelectFood: (food: Food, servings: number, mealType: string) => void;
+  customFoods: Food[];
+  onAddCustomFood: (food: Food) => void;
 }
 
-const FoodSearch: React.FC<FoodSearchProps> = ({ onSelectFood }) => {
+const FoodSearch: React.FC<FoodSearchProps> = ({ onSelectFood, customFoods, onAddCustomFood }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedFood, setSelectedFood] = useState<Food | null>(null);
   const [servings, setServings] = useState(1);
   const [mealType, setMealType] = useState('breakfast');
+  const [showCustomForm, setShowCustomForm] = useState(false);
+  const [customFood, setCustomFood] = useState({
+    name: '',
+    category: 'Protein',
+    servingSize: 100,
+    servingUnit: 'g',
+    calories: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
+    fiber: 0,
+    sugar: 0,
+  });
 
   const categories = [
     'All',
@@ -24,7 +39,9 @@ const FoodSearch: React.FC<FoodSearchProps> = ({ onSelectFood }) => {
     'Dairy',
   ];
 
-  const filteredFoods = foodDatabase.filter((food) => {
+  const allFoods = [...foodDatabase, ...customFoods];
+
+  const filteredFoods = allFoods.filter((food) => {
     const matchesSearch = food.name
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
@@ -39,6 +56,29 @@ const FoodSearch: React.FC<FoodSearchProps> = ({ onSelectFood }) => {
       setSelectedFood(null);
       setServings(1);
       setSearchTerm('');
+    }
+  };
+
+  const handleCreateCustomFood = () => {
+    if (customFood.name && customFood.calories > 0) {
+      const newFood: Food = {
+        id: `custom-${Date.now()}`,
+        ...customFood,
+      };
+      onAddCustomFood(newFood);
+      setShowCustomForm(false);
+      setCustomFood({
+        name: '',
+        category: 'Protein',
+        servingSize: 100,
+        servingUnit: 'g',
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        fiber: 0,
+        sugar: 0,
+      });
     }
   };
 
@@ -187,6 +227,210 @@ const FoodSearch: React.FC<FoodSearchProps> = ({ onSelectFood }) => {
           <button className="add-food-btn" onClick={handleAddFood}>
             Add to {mealType.charAt(0).toUpperCase() + mealType.slice(1)}
           </button>
+        </div>
+      )}
+
+      {showCustomForm && (
+        <div className="custom-food-modal">
+          <div className="custom-food-form">
+            <h2>Create Custom Food</h2>
+            
+            <div className="form-group">
+              <label>Food Name *</label>
+              <input
+                type="text"
+                value={customFood.name}
+                onChange={(e) =>
+                  setCustomFood({ ...customFood, name: e.target.value })
+                }
+                placeholder="e.g., Homemade Protein Shake"
+              />
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Category</label>
+                <select
+                  value={customFood.category}
+                  onChange={(e) =>
+                    setCustomFood({ ...customFood, category: e.target.value })
+                  }
+                >
+                  <option value="Protein">Protein</option>
+                  <option value="Carbs">Carbs</option>
+                  <option value="Vegetables">Vegetables</option>
+                  <option value="Fruits">Fruits</option>
+                  <option value="Fats">Fats</option>
+                  <option value="Dairy">Dairy</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Serving Size *</label>
+                <input
+                  type="number"
+                  value={customFood.servingSize}
+                  onChange={(e) =>
+                    setCustomFood({
+                      ...customFood,
+                      servingSize: parseFloat(e.target.value) || 0,
+                    })
+                  }
+                  min="0"
+                  step="1"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Unit</label>
+                <select
+                  value={customFood.servingUnit}
+                  onChange={(e) =>
+                    setCustomFood({ ...customFood, servingUnit: e.target.value })
+                  }
+                >
+                  <option value="g">g</option>
+                  <option value="ml">ml</option>
+                  <option value="oz">oz</option>
+                  <option value="cup">cup</option>
+                  <option value="tbsp">tbsp</option>
+                  <option value="tsp">tsp</option>
+                  <option value="piece">piece</option>
+                  <option value="serving">serving</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Calories *</label>
+                <input
+                  type="number"
+                  value={customFood.calories}
+                  onChange={(e) =>
+                    setCustomFood({
+                      ...customFood,
+                      calories: parseFloat(e.target.value) || 0,
+                    })
+                  }
+                  min="0"
+                  step="1"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Protein (g) *</label>
+                <input
+                  type="number"
+                  value={customFood.protein}
+                  onChange={(e) =>
+                    setCustomFood({
+                      ...customFood,
+                      protein: parseFloat(e.target.value) || 0,
+                    })
+                  }
+                  min="0"
+                  step="0.1"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Carbs (g) *</label>
+                <input
+                  type="number"
+                  value={customFood.carbs}
+                  onChange={(e) =>
+                    setCustomFood({
+                      ...customFood,
+                      carbs: parseFloat(e.target.value) || 0,
+                    })
+                  }
+                  min="0"
+                  step="0.1"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Fat (g) *</label>
+                <input
+                  type="number"
+                  value={customFood.fat}
+                  onChange={(e) =>
+                    setCustomFood({
+                      ...customFood,
+                      fat: parseFloat(e.target.value) || 0,
+                    })
+                  }
+                  min="0"
+                  step="0.1"
+                />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Fiber (g)</label>
+                <input
+                  type="number"
+                  value={customFood.fiber}
+                  onChange={(e) =>
+                    setCustomFood({
+                      ...customFood,
+                      fiber: parseFloat(e.target.value) || 0,
+                    })
+                  }
+                  min="0"
+                  step="0.1"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Sugar (g)</label>
+                <input
+                  type="number"
+                  value={customFood.sugar}
+                  onChange={(e) =>
+                    setCustomFood({
+                      ...customFood,
+                      sugar: parseFloat(e.target.value) || 0,
+                    })
+                  }
+                  min="0"
+                  step="0.1"
+                />
+              </div>
+            </div>
+
+            <div className="form-actions">
+              <button
+                className="cancel-btn"
+                onClick={() => {
+                  setShowCustomForm(false);
+                  setCustomFood({
+                    name: '',
+                    category: 'Protein',
+                    servingSize: 100,
+                    servingUnit: 'g',
+                    calories: 0,
+                    protein: 0,
+                    carbs: 0,
+                    fat: 0,
+                    fiber: 0,
+                    sugar: 0,
+                  });
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="create-btn"
+                onClick={handleCreateCustomFood}
+                disabled={!customFood.name || customFood.calories === 0}
+              >
+                Create Food
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

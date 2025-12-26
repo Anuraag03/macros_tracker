@@ -18,12 +18,14 @@ function App() {
     totalFat: 0,
   });
   const [showFoodSearch, setShowFoodSearch] = useState(false);
+  const [customFoods, setCustomFoods] = useState<Food[]>([]);
 
   // Load data from localStorage on mount
   useEffect(() => {
     const savedProfile = localStorage.getItem('userProfile');
     const savedGoals = localStorage.getItem('macroGoals');
     const savedLog = localStorage.getItem('dailyLog');
+    const savedCustomFoods = localStorage.getItem('customFoods');
 
     if (savedProfile) {
       setUserProfile(JSON.parse(savedProfile));
@@ -37,6 +39,9 @@ function App() {
       if (log.date === new Date().toISOString().split('T')[0]) {
         setDailyLog(log);
       }
+    }
+    if (savedCustomFoods) {
+      setCustomFoods(JSON.parse(savedCustomFoods));
     }
   }, []);
 
@@ -56,6 +61,10 @@ function App() {
   useEffect(() => {
     localStorage.setItem('dailyLog', JSON.stringify(dailyLog));
   }, [dailyLog]);
+
+  useEffect(() => {
+    localStorage.setItem('customFoods', JSON.stringify(customFoods));
+  }, [customFoods]);
 
   const handleProfileComplete = (profile: UserProfile) => {
     setUserProfile(profile);
@@ -111,6 +120,10 @@ function App() {
     });
   };
 
+  const handleAddCustomFood = (food: Food) => {
+    setCustomFoods([...customFoods, food]);
+  };
+
   const handleResetProfile = () => {
     if (confirm('Are you sure you want to reset your profile? This will clear all data.')) {
       localStorage.clear();
@@ -160,7 +173,11 @@ function App() {
             </button>
             <h2>Add Food</h2>
           </div>
-          <FoodSearch onSelectFood={handleAddFood} />
+          <FoodSearch 
+            onSelectFood={handleAddFood}
+            customFoods={customFoods}
+            onAddCustomFood={handleAddCustomFood}
+          />
         </div>
       )}
     </div>
